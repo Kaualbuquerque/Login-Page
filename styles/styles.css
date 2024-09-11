@@ -1,0 +1,273 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+
+    font-size: 62.5%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: roboto;
+}
+
+
+
+.modal {
+    width: 940px;
+    height: 645px;
+
+    background-color: #FFEEBF;
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+
+    border-radius: 15px;
+    box-shadow: 0px 5px 5px 2px #0000002f;
+
+    position: relative;
+}
+
+
+
+.login,
+.cadastro {
+    align-self: center;
+    z-index: 1;
+}
+
+.title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    font-size: 2.5rem;
+
+    margin-bottom: 25px;
+}
+
+.title h1 {
+    color: #FF7300;
+    margin: 0;
+}
+
+
+
+.social-media {
+    color: #FF7300;
+
+    text-align: center;
+    font-size: .7rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.social-media ul {
+    width: 75%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    list-style: none;
+}
+
+.social-media ul li {
+    cursor: pointer;
+}
+
+.google {
+    background-image: url("../Components/icons/google.png");
+    background-size: cover;
+    width: 60px;
+    height: 60px;
+    transition: background-image .3s;
+}
+
+.google:hover {
+    background-image: url("../Components/icons/google_hover.png");
+
+}
+
+.github {
+    background-image: url("../Components/icons/github.png");
+    background-size: cover;
+    width: 60px;
+    height: 60px;
+    transition: background-image .3s;
+}
+
+.github:hover {
+    background-image: url("../Components/icons/github_hover.png");
+
+}
+
+.linkedin {
+    background-image: url("../Components/icons/linkedin.png");
+    background-size: cover;
+    width: 60px;
+    height: 60px;
+    transition: background-image .3s;
+}
+
+.linkedin:hover {
+    background-image: url("../Components/icons/linkedin_hover.png");
+
+}
+
+
+
+.form-container {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+}
+
+.form-container p {
+    color: #FF7300;
+
+    font-size: .7rem;
+    font-weight: 500;
+
+    align-self: flex-start;
+    padding-left: 20px;
+
+
+    cursor: pointer;
+}
+
+.form-container input {
+    width: 95%;
+
+    align-self: flex-end;
+
+    height: 50px;
+
+    padding-left: 10px;
+
+    border: none;
+    border-radius: 15px;
+
+    font-weight: bold;
+
+    box-shadow: 0px 2px 4px #0000004c;
+}
+
+.form-container [type="submit"] {
+    background-color: #FFEEBF;
+    color: #FF7300;
+
+    height: 40px;
+    width: 125px;
+
+    padding-right: 10px;
+
+    text-align: center;
+
+    border: solid 2px #FF7300;
+    border-radius: 10px;
+
+    box-shadow: 0px 2px 2px #0000004c;
+
+    font-weight: bold;
+}
+
+.form-container [type="submit"]:hover {
+    cursor: pointer;
+
+    color: #FFEEBF;
+    background-color: #FF7300;
+    transition: .3s;
+}
+
+
+
+.transition {
+    color: #FFEEBF;
+
+    position: absolute;
+    z-index: 2;
+
+    right: 0;
+
+    height: 100%;
+    width: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    text-align: center;
+
+    gap: 50px;
+
+    transition: transform 1.2s, width 1.2s ease-out;
+}
+
+.transition::before {
+    background: linear-gradient(to bottom, #ffbf36, #ff882c);
+
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    filter: blur(1px);
+
+    border-radius: 15px;
+    box-shadow: -2px 0px 4px #0000004c;
+
+    z-index: -1;
+}
+
+.transition h2 {
+    font-size: 2.5rem;
+}
+
+.transition p {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.transition button {
+    background-color: #ffeebf00;
+    color: #FFEEBF;
+
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+
+    font-weight: bold;
+
+    box-shadow: 0px 2px 3px #0000002f;
+    border: solid 2px #FFEEBF;
+}
+
+.transition button:hover {
+    background-color: #FFEEBF;
+    color: #FF7300;
+    cursor: pointer;
+    transition: .3s;
+}
+
+
+.cadastro .form-container{
+    padding-right: 15px;
+}

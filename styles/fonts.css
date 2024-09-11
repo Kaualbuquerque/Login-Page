@@ -1,0 +1,83 @@
+@font-face {
+    font-family: "Roboto";
+    src: url("../Components/Fonts/Roboto-Thin.ttf") format("truetype");
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("../Components/Fonts/Roboto-ThinItalic.ttf") format("truetype");
+    font-weight: 100;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("../Components/Fonts/Roboto-Light.ttf") format("truetype");
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("../Components/Fonts/Roboto-LightItalic.ttf") format("truetype");
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("../Components/Fonts/Roboto-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("../Components/Fonts/Roboto-Italic.ttf") format("truetype");
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("../Components/Fonts/Roboto-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("../Components/Fonts/Roboto-MediumItalic.ttf") format("truetype");
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("../Components/Fonts/Roboto-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("../Components/Fonts/Roboto-BoldItalic.ttf") format("truetype");
+    font-weight: 700;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("../Components/Fonts/Roboto-Black.ttf") format("truetype");
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("../Components/Fonts/Roboto-BlackItalic.ttf") format("truetype");
+    font-weight: 900;
+    font-style: italic;
+}
