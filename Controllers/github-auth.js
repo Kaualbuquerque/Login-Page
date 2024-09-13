@@ -4,8 +4,8 @@ require('dotenv').config();
 
 // Configura a estratégia do GitHub
 passport.use(new GitHubStrategy({
-    clientID: "Ov23lin9vuF2bpLW6GSu",
-    clientSecret: "4ee7840de50107bf80b0bf1ed899dafde51bdb0e",
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
     callbackURL: "https://login-page-dusky-seven.vercel.app/auth/github/callback"
 },
     function (accessToken, refreshToken, profile, done) {
