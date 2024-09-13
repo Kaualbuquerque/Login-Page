@@ -27,7 +27,7 @@ $(".transition button").click(() => {
 
 // Função para registrar um novo usuário
 async function registerUser(email, password, phone, dob) {
-  const response = await fetch('http://localhost:3000/register', { // Atualize a URL se necessário
+  const response = await fetch('/register', { // Atualize a URL se necessário
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password, phone, dob })
@@ -39,7 +39,7 @@ async function registerUser(email, password, phone, dob) {
 
 // Função para fazer login
 async function loginUser(email, password) {
-  const response = await fetch('http://localhost:3000/login', { // Atualize a URL se necessário
+  const response = await fetch('/login', { // Atualize a URL se necessário
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password })
@@ -47,6 +47,11 @@ async function loginUser(email, password) {
 
   const result = await response.text();
   alert(result);
+}
+
+// Função para redirecionar para o GitHub para autenticação
+function redirectToGitHub() {
+  window.location.href = '/auth/github';
 }
 
 // Manipulador de eventos para o formulário de cadastro
@@ -58,11 +63,10 @@ $("#registerForm").on('submit', (e) => {
   const phone = $("#phone").val();
   const dob = $("#dob").val();
 
-  if(password === confirm_password){
+  if (password === confirm_password) {
     registerUser(email, password, phone, dob);
-  }
-  else{
-    console.log("Senhas diferentes")
+  } else {
+    console.log("Senhas diferentes");
   }
 });
 
@@ -73,4 +77,9 @@ $("#loginForm").on('submit', (e) => {
   const password = $("#password-signIn").val();
 
   loginUser(email, password);
+});
+
+// Adicionar um manipulador de eventos para o botão de login com GitHub
+$(".github").on('click', () => {
+  redirectToGitHub();
 });

@@ -3,10 +3,23 @@ const mysql = require('mysql2');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
+const session = require('express-session');
+const passport = require('./github-auth'); // Importa o GitHub OAuth configurado
 
 const app = express();
 app.use(express.json());
 app.use(cors()); // Habilitar CORS para todas as origens
+
+// Configura a sessão
+app.use(session({
+    secret: '0', // Defina uma chave secreta forte
+    resave: false,
+    saveUninitialized: true
+}));
+
+// Inicializa o passport e a sessão
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Conectar ao MySQL
 const db = mysql.createConnection({
@@ -61,6 +74,26 @@ app.post('/login', (req, res) => {
         const token = jwt.sign({ id: user.id }, 'your_jwt_secret_key');
         res.header('auth-token', token).send('Logado com sucesso');
     });
+});
+
+// Rota para autenticação com GitHub
+app.get('/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));
+
+// Callback para a autenticação com GitHub
+app.get('/auth/github/callback',
+  passport.authenticate('github', { failureRedirect: '/' }),
+  function(req, res) {
+    // Sucesso na autenticação, redirecionar para a página de perfil
+    res.redirect('/profile');
+  }
+);
+
+// Rota de perfil (apenas para usuários autenticados)
+app.get('/profile', (req, res) => {
+    if (!req.isAuthenticated()) {
+        return res.status(401).send('Você precisa estar logado para ver esta página.');
+    }
+    res.json({ user: req.user });
 });
 
 // Iniciar o servidor
