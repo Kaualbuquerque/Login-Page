@@ -4,16 +4,11 @@ require('dotenv').config();
 
 // Configura a estratégia do GitHub
 passport.use(new GitHubStrategy({
-    clientID: process.env.GITHUB_CLIENT_ID,
-    clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: "https://login-page-dusky-seven.vercel.app/auth/github/callback"
+    clientID: "Ov23lin9vuF2bpLW6GSu",
+    clientSecret: "b5a35743a6b4b4d4c66227d7c5b583c83ea73d1a",
+    callbackURL: "http://localhost:3000/auth/github/callback"
 },
     function (accessToken, refreshToken, profile, done) {
-        // Aqui você pode verificar se o usuário já existe no banco de dados ou salvar o novo usuário
-        // Exemplo: retornar a informação do perfil
-        console.log("GITHUB_CLIENT_ID:", process.env.GITHUB_CLIENT_ID);
-        console.log("GITHUB_CLIENT_SECRET:", process.env.GITHUB_CLIENT_SECRET);
-
         return done(null, profile);
     }
 ));

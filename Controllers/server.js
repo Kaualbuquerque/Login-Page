@@ -4,11 +4,15 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const session = require('express-session');
+const path = require('path');
 const passport = require('./github-auth'); // Importa o GitHub OAuth configurado
 
 const app = express();
 app.use(express.json());
 app.use(cors()); // Habilitar CORS para todas as origens
+
+// Servir arquivos estáticos da pasta 'public'
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Configura a sessão
 app.use(session({
@@ -32,6 +36,11 @@ const db = mysql.createConnection({
 db.connect((err) => {
     if (err) throw err;
     console.log('Conectado ao MySQL!');
+});
+
+// Rota principal para servir o arquivo HTML (index.html)
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Rota para cadastro
@@ -77,15 +86,41 @@ app.post('/login', (req, res) => {
 });
 
 // Rota para autenticação com GitHub
-app.get('/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));
+app.get('/auth/github', passport.authenticate('github', { scope: ['user:email'] }));
 
 // Callback para a autenticação com GitHub
 app.get('/auth/github/callback',
-  passport.authenticate('github', { failureRedirect: '/' }),
-  function(req, res) {
-    // Sucesso na autenticação, redirecionar para a página de perfil
-    res.redirect('/profile');
-  }
+    passport.authenticate('github', { failureRedirect: '/' }),
+    function (req, res) {
+        const user = req.user;
+        const githubId = user.id;
+        const username = user.username;
+        const profileUrl = user._json.html_url;
+
+        // Verificar se o usuário já existe no banco de dados com base no github_id
+        const query = 'SELECT * FROM github_users WHERE github_id = ?';
+
+        db.query(query, [githubId], (err, result) => {
+            if (err) throw err;
+
+            if (result.length > 0) {
+                // Usuário já existe
+                console.log('Usuário já existente no banco de dados GitHub!');
+                res.redirect('/?login=success');
+            } else {
+                // Usuário não existe, insira um novo registro
+                const insertQuery = `
+                    INSERT INTO github_users (github_id, username, profile_url)
+                    VALUES (?, ?, ?)
+                `;
+                db.query(insertQuery, [githubId, username, profileUrl], (err, result) => {
+                    if (err) throw err;
+                    console.log('Usuário salvo no banco de dados GitHub!');
+                    res.redirect('/');
+                });
+            }
+        });
+    }
 );
 
 // Rota de perfil (apenas para usuários autenticados)
@@ -97,6 +132,7 @@ app.get('/profile', (req, res) => {
 });
 
 // Iniciar o servidor
-app.listen(3000, () => {
-    console.log('Servidor rodando na porta 3000');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
 });
