@@ -1,5 +1,16 @@
 // Controlador do botão de alternância
 let isToggled = false;
+const urlParams = new URLSearchParams(window.location.search);
+const loginStatus = urlParams.get('login');
+const messageDiv = document.getElementById('message');
+
+if (loginStatus === 'success') {
+    messageDiv.textContent = 'Login realizado com sucesso!';
+    messageDiv.style.color = 'green';
+} else if (loginStatus === 'error') {
+    messageDiv.textContent = 'Conta não encontrada no banco de dados.';
+    messageDiv.style.color = 'red';
+}
 
 $(".transition button").click(() => {
   if (isToggled) {
@@ -49,10 +60,6 @@ async function loginUser(email, password) {
   alert(result);
 }
 
-// Função para redirecionar para o GitHub para autenticação
-function redirectToGitHub() {
-  window.location.href = '/auth/github';
-}
 
 // Manipulador de eventos para o formulário de cadastro
 $("#registerForm").on('submit', (e) => {
@@ -79,7 +86,4 @@ $("#loginForm").on('submit', (e) => {
   loginUser(email, password);
 });
 
-// Adicionar um manipulador de eventos para o botão de login com GitHub
-$(".github").on('click', () => {
-  redirectToGitHub();
-});
+

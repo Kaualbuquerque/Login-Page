@@ -11,11 +11,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 
     font-family: roboto;
 }
 
-
+#message{
+    font-size: 2rem;
+}
 
 .modal {
     width: 940px;
