@@ -71,17 +71,17 @@ app.post('/login', (req, res) => {
     db.query(query, [email], async (err, result) => {
         if (err) throw err;
         if (result.length === 0) {
-            return res.status(400).send('Email ou senha inválidos');
+            return res.status(400).json({ success: false, message: 'Email ou senha inválidos' });
         }
 
         const user = result[0];
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) {
-            return res.status(400).send('Email ou senha inválidos');
+            return res.status(400).json({ success: false, message: 'Email ou senha inválidos' });
         }
 
         const token = jwt.sign({ id: user.id }, 'your_jwt_secret_key');
-        res.header('auth-token', token).send('Logado com sucesso');
+        res.json({ success: true, redirectUrl: '/?login=success'});
     });
 });
 
@@ -122,14 +122,6 @@ app.get('/auth/github/callback',
         });
     }
 );
-
-// Rota de perfil (apenas para usuários autenticados)
-app.get('/profile', (req, res) => {
-    if (!req.isAuthenticated()) {
-        return res.status(401).send('Você precisa estar logado para ver esta página.');
-    }
-    res.json({ user: req.user });
-});
 
 // Iniciar o servidor
 const PORT = process.env.PORT || 3000;

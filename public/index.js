@@ -2,20 +2,24 @@
 let isToggled = false;
 const urlParams = new URLSearchParams(window.location.search);
 const loginStatus = urlParams.get('login');
-const messageDiv = document.getElementById('message');
+const transition = document.getElementById('transition');
 
 if (loginStatus === 'success') {
-    messageDiv.textContent = 'Login realizado com sucesso!';
-    messageDiv.style.color = 'green';
-} else if (loginStatus === 'error') {
-    messageDiv.textContent = 'Conta não encontrada no banco de dados.';
-    messageDiv.style.color = 'red';
+  transition.classList.add("login-success");
+  // Atualiza o texto do elemento
+  const h2 = transition.querySelector('h2');
+  const p = transition.querySelector('p');
+  const button = transition.querySelector("button")
+  h2.textContent = "Login Success";
+  p.textContent = "You have successfully logged in!";
+  button.remove()
 }
 
+// Alterna entre o estado de cadastro e login
 $(".transition button").click(() => {
   if (isToggled) {
     $(".transition").css({
-      "transform": "translateX(0)", 
+      "transform": "translateX(0)",
       "width": "50%",
     });
 
@@ -24,7 +28,7 @@ $(".transition button").click(() => {
     $(".transition button").text("Create your account here!");
   } else {
     $(".transition").css({
-      "transform": "translateX(-100%)", 
+      "transform": "translateX(-100%)",
       "width": "50%",
     });
 
@@ -51,15 +55,20 @@ async function registerUser(email, password, phone, dob) {
 // Função para fazer login
 async function loginUser(email, password) {
   const response = await fetch('/login', { // Atualize a URL se necessário
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password })
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
   });
 
-  const result = await response.text();
-  alert(result);
+  const result = await response.json();
+  if (result.success) {
+      // Redireciona para a página com o parâmetro 'login=success'
+      window.location.href = result.redirectUrl;
+    } else {
+      // Mostra a mensagem de erro
+      alert(result.message);
+  }
 }
-
 
 // Manipulador de eventos para o formulário de cadastro
 $("#registerForm").on('submit', (e) => {
@@ -85,5 +94,3 @@ $("#loginForm").on('submit', (e) => {
 
   loginUser(email, password);
 });
-
-
