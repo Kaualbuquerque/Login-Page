@@ -6,13 +6,12 @@ const transition = document.getElementById('transition');
 
 if (loginStatus === 'success') {
   transition.classList.add("login-success");
-  // Atualiza o texto do elemento
   const h2 = transition.querySelector('h2');
   const p = transition.querySelector('p');
   const button = transition.querySelector("button")
   h2.textContent = "Login Success";
   p.textContent = "You have successfully logged in!";
-  button.remove()
+  button.remove();
 }
 
 // Alterna entre o estado de cadastro e login
@@ -40,33 +39,35 @@ $(".transition button").click(() => {
   isToggled = !isToggled;
 });
 
-// Função para registrar um novo usuário
-async function registerUser(email, password, phone, dob) {
-  const response = await fetch('/register', { // Atualize a URL se necessário
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password, phone, dob })
-  });
+// Função para registrar um novo usuário usando localStorage
+function registerUser(email, password, phone, dob) {
+  const users = JSON.parse(localStorage.getItem('users')) || [];
 
-  const result = await response.text();
-  alert(result);
+  // Verifica se o email já está cadastrado
+  const userExists = users.some(user => user.email === email);
+  if (userExists) {
+    alert('Email já cadastrado');
+    return;
+  }
+
+  // Adiciona o novo usuário ao localStorage
+  const newUser = { email, password, phone, dob };
+  users.push(newUser);
+  localStorage.setItem('users', JSON.stringify(users));
+
+  alert('Usuário registrado com sucesso!');
 }
 
-// Função para fazer login
-async function loginUser(email, password) {
-  const response = await fetch('/login', { // Atualize a URL se necessário
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-  });
+// Função para fazer login usando localStorage
+function loginUser(email, password) {
+  const users = JSON.parse(localStorage.getItem('users')) || [];
 
-  const result = await response.json();
-  if (result.success) {
-      // Redireciona para a página com o parâmetro 'login=success'
-      window.location.href = result.redirectUrl;
-    } else {
-      // Mostra a mensagem de erro
-      alert(result.message);
+  // Verifica se o usuário existe e a senha está correta
+  const user = users.find(user => user.email === email && user.password === password);
+  if (user) {
+    window.location.href = '/?login=success';
+  } else {
+    alert('Email ou senha inválidos');
   }
 }
 
@@ -82,7 +83,7 @@ $("#registerForm").on('submit', (e) => {
   if (password === confirm_password) {
     registerUser(email, password, phone, dob);
   } else {
-    console.log("Senhas diferentes");
+    alert("Senhas diferentes");
   }
 });
 
